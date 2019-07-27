@@ -8,8 +8,10 @@ export default (props) => (
       marginRight: 1,
       display: "inline-block",
       border: "1px solid",
+	  borderRadius: "4px",
       width: SIZE,
-      height: SIZE
+      height: SIZE,
+	  overflow: "hidden",
     }}
   >
   	{props.children}
