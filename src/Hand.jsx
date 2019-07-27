@@ -8,7 +8,7 @@ export default ({
   handleCardClick
 }) => {
   return (
-    <div>
+    <div style={{ margin: 45 }}>
       {isThisPlayersTurn === true && "GO"}
       {cards.map(c => (
         <div
@@ -16,6 +16,9 @@ export default ({
             isThisPlayersTurn === true ? () => handleCardClick(c.id) : undefined
           }
           style={{
+            marginLeft: 5,
+            marginRight: 5,
+            borderRadius: 3,
             cursor: isThisPlayersTurn === true ? "crosshair" : "not-allowed",
             userSelect: "none",
             display: "inline-block",

@@ -5,7 +5,14 @@ import Card from "./Card";
 export default class Board extends React.Component {
   render() {
     return (
-      <div style={{ width: (SIZE + 4) * 4, height: SIZE * 4 }}>
+      <div
+        style={{
+          marginLeft: "auto",
+          marginRight: "auto",
+          width: (SIZE + 4) * 4,
+          height: SIZE * 4
+        }}
+      >
         {this.props.cards.map((cardData, idx) => (
           <Square
             onClick={

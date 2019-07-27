@@ -4,7 +4,7 @@ import { SIZE } from "./Square";
 
 function makeRotationFor(i) {
   if (i % 2 == 1) i--;
-  return `rotate(${45 * i} 0.5 0.5)`;
+  return `rotate(${-45 * i} 0.5 0.5)`;
 }
 
 function makePathFor(i) {
@@ -22,7 +22,8 @@ export default props => (
       flexFlow: "column nowrap",
       alignItems: "center",
       justifyContent: "center",
-      background: props.isFriendly ? "#88a" : "#a88"
+      transition: "background-color ease-in-out 1s",
+      background: props.isFriendly ? "cadetblue" : "rebeccapurple"
     }}
   >
     <div
