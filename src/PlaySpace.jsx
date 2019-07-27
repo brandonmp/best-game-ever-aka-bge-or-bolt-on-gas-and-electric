@@ -4,14 +4,14 @@ import Board from "./Board";
 import _ from "lodash";
 
 const makeCards = (idMultiplier = 1) => {
-  return _.range(0, 5).map((i, index) => {
+  return _.range(0, 6).map((i, index) => {
     const maxHP = _.random(1, 5);
     return {
       id: index * 2 + idMultiplier,
       position: _.random(1, 5),
       maxHP,
       currentHP: maxHP,
-      attack: _.random(1, 5),
+      attack: _.random(1, 3),
       isFriendly: idMultiplier === 1,
       arrows: {
         0: _.random(0, 1) === 1,
@@ -43,8 +43,7 @@ function battleCards(card1, pos1, card2, pos2) {
   if (typeof card1 === "number" || typeof card2 === "number") {
     return defaultReturn;
   }
-  if (card1.isFriendly === card2.isFriendly)
-    return defaultReturn;
+  if (card1.isFriendly === card2.isFriendly) return defaultReturn;
   const xOffset = (pos2 % 4) - (pos1 % 4);
   const yOffset = Math.floor(pos2 / 4) - Math.floor(pos1 / 4);
   const directionBetweenCards = offsetsToDirections[[xOffset, yOffset]];
@@ -89,7 +88,7 @@ function haveCardBeBellicose(cardList, bellicoseIndex) {
 export default class PlaySpace extends React.Component {
   state = {
     hands: [makeCards(), makeCards(2)],
-    spaces: _.range(16),
+    spaces: _.shuffle(_.range(0, 16)).map(i => (i < 4 ? 0 : i)),
     cardBeingPlaced: null,
     isPlayerOneTurn: true
   };

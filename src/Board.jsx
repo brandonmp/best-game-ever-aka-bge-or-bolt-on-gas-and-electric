@@ -15,6 +15,7 @@ export default class Board extends React.Component {
       >
         {this.props.cards.map((cardData, idx) => (
           <Square
+            isDead={typeof cardData === "number" && cardData === 0}
             onClick={
               typeof this.props.handleSquareSelect === "undefined"
                 ? undefined

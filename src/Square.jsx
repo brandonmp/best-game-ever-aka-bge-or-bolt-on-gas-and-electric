@@ -3,8 +3,9 @@ import * as React from "react";
 export const SIZE = 100;
 export default props => (
   <div
-    onClick={props.onClick}
+    onClick={props.isDead === true ? undefined : props.onClick}
     style={{
+      background: props.isDead === true ? "grey" : undefined,
       marginLeft: 1,
       marginRight: 1,
       display: "inline-block",
