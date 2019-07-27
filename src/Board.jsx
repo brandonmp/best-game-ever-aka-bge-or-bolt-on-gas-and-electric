@@ -6,9 +6,15 @@ export default class Board extends React.Component {
   render() {
     return (
       <div style={{ width: (SIZE + 4) * 4, height: SIZE * 4 }}>
-        {this.props.cards.map(cardData => (
-          <Square>
-            {typeof cardData === "undefined" ? <Card {...cardData} /> : null}
+        {this.props.cards.map((cardData, idx) => (
+          <Square
+            onClick={
+              typeof this.props.handleSquareSelect === "undefined"
+                ? undefined
+                : () => this.props.handleSquareSelect(idx)
+            }
+          >
+            {typeof cardData === "number" ? null : <Card {...cardData} />}
           </Square>
         ))}
       </div>

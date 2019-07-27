@@ -12,10 +12,14 @@ export default ({
       {isThisPlayersTurn === true && "GO"}
       {cards.map(c => (
         <div
-          onClick={() => handleCardClick(c.id)}
+          onClick={
+            isThisPlayersTurn === true ? () => handleCardClick(c.id) : undefined
+          }
           style={{
+            cursor: isThisPlayersTurn === true ? "crosshair" : "not-allowed",
+            userSelect: "none",
             display: "inline-block",
-            background: cardBeingSelectedId === c.id ? "blue" : undefined
+            border: cardBeingSelectedId === c.id ? "solid 10px" : "solid 1px"
           }}
           key={c.id}
         >

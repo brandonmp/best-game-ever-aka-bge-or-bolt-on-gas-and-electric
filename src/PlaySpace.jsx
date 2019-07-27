@@ -5,11 +5,12 @@ import _ from "lodash";
 
 const makeCards = (idMultiplier = 1) =>
   _.range(0, 5).map((i, index) => ({
-    id: index * idMultiplier,
+    id: index * 2 + idMultiplier,
     position: _.random(1, 5),
     maxHP: _.random(1, 5),
     currentHP: _.random(1, 5),
     attack: _.random(1, 5),
+    isFriendly: idMultiplier === 1,
     arrows: {
       0: _.random(0, 1) === 1,
       1: _.random(0, 1) === 1,
@@ -36,6 +37,20 @@ export default class PlaySpace extends React.Component {
       )
     });
   };
+  placeCardInSquare = squareIndex => {
+    console.log("HANDLE SQUARE", squareIndex);
+    const newArray = [...this.state.spaces];
+    newArray.splice(squareIndex, 1, this.state.cardBeingPlaced);
+
+    this.setState({
+      hands: this.state.hands.map(hand =>
+        hand.filter(({ id }) => id !== this.state.cardBeingPlaced.id)
+      ),
+      isPlayerOneTurn: !this.state.isPlayerOneTurn,
+      cardBeingPlaced: null,
+      spaces: newArray
+    });
+  };
   render() {
     return (
       <div>
@@ -50,7 +65,14 @@ export default class PlaySpace extends React.Component {
           isThisPlayersTurn={this.state.isPlayerOneTurn}
           cards={this.state.hands[0]}
         />
-        <Board cards={this.state.spaces} />
+        <Board
+          handleSquareSelect={
+            this.state.cardBeingPlaced === null
+              ? undefined
+              : this.placeCardInSquare
+          }
+          cards={this.state.spaces}
+        />
         <Hand
           cardBeingSelectedId={
             this.state.cardBeingPlaced === null
