@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export const SIZE = 100;
-export default () => (
+export default (props) => (
   <div
     style={{
       marginLeft: 1,
@@ -11,5 +11,7 @@ export default () => (
       width: SIZE,
       height: SIZE
     }}
-  />
+  >
+  	{props.children}
+  </div>
 );
