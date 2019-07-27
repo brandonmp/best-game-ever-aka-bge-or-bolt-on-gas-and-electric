@@ -23,6 +23,54 @@ const makeCards = (idMultiplier = 1) =>
     }
   }));
 
+const offsetsToDirections = {
+	"1,0": 0,
+	"1,-1": 1,
+	"0,-1": 2,
+	"-1,-1": 3,
+	"-1,0": 4,
+	"-1,1": 5,
+	"0,1": 6,
+	"1,1": 7,
+};
+
+function battleCards(card1, pos1, card2, pos2) {
+	const xOffset = (pos2 % 4) - (pos1 % 4);
+	const yOffset = Math.floor(pos2 / 4) - Math.floor(pos1 / 4);
+	const directionBetweenCards = offsetsToDirections[[xOffset, yOffset]];
+	// Make sure the cards are adjacent.
+	if (typeof directionBetweenCards === 'undefined')
+		return;
+	// Make sure the cards want to battle.
+	// Because directionBetweenCards is from card1 to card2, check that card1 has this direction, and card2 has 4 + this direction.
+	if (!card1.arrows[directionBetweenCards])
+		return;
+	if (!card2.arrows[(4 + directionBetweenCards) % 8])
+		return;
+	return [dealDamage(card1, card2.attack), dealDamage(card2, card1.attack)];
+}
+
+function dealDamage(card, attack) {
+	const newCard = {...card};
+	newCard.currentHP -= attack;
+	return newCard;
+}
+
+function haveCardBeBellicose(cardList, bellicoseIndex) {
+	let bellicoseCard = cardList[bellicoseIndex];
+	for (let i = 0; i < cardList.length; i++) {
+		if (i == bellicoseIndex)
+			continue;
+		const [bellicoseCard, cardList[i]] = battleCards(bellicoseCard, cardList[i]);
+	}
+	for (let i = 0; i < cardList.length; i++) {
+		if (cardList[i].currentHP <= 0) {
+			cardList[i].currentHP = cardList[i].maxHP;
+			cardList[i].isFriendly = !cardList[i].isFriendly;
+		}
+	}
+}
+
 export default class PlaySpace extends React.Component {
   state = {
     hands: [makeCards(), makeCards(2)],
